@@ -1,0 +1,41 @@
+hub:
+  config:
+    JupyterHub:
+      authenticator_class: oauthenticator.google.GoogleOAuthenticator
+      admin_access: true
+      admin_users:
+        - "admin@test.com"
+        - "user3@test.com"
+      allowed_users:
+        - "user1@test.com"
+        - "user2@test.com"
+
+    GoogleOAuthenticator:
+      client_id: "00000000000-xxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com"
+      client_secret: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      oauth_callback_url: "https://jupyter.yourdomain.com/hub/oauth_callback"
+      login_service: 'your-company-name'
+    Authenticator:
+      allowed_users:
+        - "user1@test.com"
+        - "user2@test.com"
+  extraConfig:
+      allowHiddenFiles: |
+        c.ContentsManager.allow_hidden = True
+
+singleuser:
+  image:
+    name: alireza71/jupyter-singleuser-cuda
+    tag: "latest"
+    pullPolicy: IfNotPresent
+
+ingress:
+  enabled: true
+  ingressClassName: haproxy
+  hosts:
+   - jupyter.yourdomain.com
+  pathSuffix:
+  pathType: Prefix
+  tls:
+    - hosts:
+      - jupyter.yourdomain.com
